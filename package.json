@@ -1,0 +1,17 @@
+{
+  "name": "linkstream-stremio-addon",
+  "version": "1.0.0",
+  "description": "Stremio addon that streams from a custom link set via web interface",
+  "main": "addon.js",
+  "scripts": {
+    "start": "node addon.js"
+  },
+  "dependencies": {
+    "stremio-addon-sdk": "^1.6.10",
+    "express": "^4.18.2",
+    "cors": "^2.8.5"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
