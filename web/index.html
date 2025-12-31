@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LinkStream - Control Panel</title>
-    <meta name="description" content="Control your LinkStream Stremio addon - set custom streaming links from any device">
+    <meta name="description"
+        content="Control your LinkStream Stremio addon - set custom streaming links from any device">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -36,7 +38,7 @@
             flex-direction: column;
             align-items: center;
             padding: 2rem 1rem;
-            background-image: 
+            background-image:
                 radial-gradient(ellipse at top, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
                 radial-gradient(ellipse at bottom right, rgba(139, 92, 246, 0.1) 0%, transparent 50%);
         }
@@ -60,8 +62,15 @@
         }
 
         @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
         }
 
         h1 {
@@ -103,11 +112,8 @@
             gap: 1rem;
         }
 
-        .input-wrapper {
-            position: relative;
-        }
-
-        input[type="text"], input[type="url"] {
+        input[type="text"],
+        input[type="url"] {
             width: 100%;
             padding: 1rem 1.25rem;
             font-size: 1rem;
@@ -159,16 +165,6 @@
             transform: translateY(0);
         }
 
-        .btn-secondary {
-            background: var(--bg-secondary);
-            color: var(--text-primary);
-            border: 1px solid var(--border);
-        }
-
-        .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.1);
-        }
-
         .current-link {
             display: flex;
             align-items: center;
@@ -208,8 +204,15 @@
         }
 
         @keyframes slideIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .status.success {
@@ -277,10 +280,6 @@
             margin-bottom: 0.25rem;
         }
 
-        .config-section {
-            margin-bottom: 1.5rem;
-        }
-
         .loading {
             opacity: 0.7;
             pointer-events: none;
@@ -296,7 +295,9 @@
         }
 
         @keyframes spin {
-            to { transform: rotate(360deg); }
+            to {
+                transform: rotate(360deg);
+            }
         }
 
         footer {
@@ -308,11 +309,17 @@
         }
 
         @media (max-width: 480px) {
-            h1 { font-size: 1.75rem; }
-            .card { padding: 1.25rem; }
+            h1 {
+                font-size: 1.75rem;
+            }
+
+            .card {
+                padding: 1.25rem;
+            }
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <header class="header">
@@ -320,15 +327,6 @@
             <h1>LinkStream</h1>
             <p class="subtitle">Control your Stremio addon from anywhere</p>
         </header>
-
-        <!-- Backend URL Config -->
-        <div class="card config-section">
-            <h2 class="card-title">⚙️ Backend URL</h2>
-            <div class="input-group">
-                <input type="url" id="backendUrl" placeholder="https://your-addon.koyeb.app" value="">
-                <button class="btn btn-secondary" onclick="saveBackendUrl()">Save Backend URL</button>
-            </div>
-        </div>
 
         <!-- Link Control -->
         <div class="card">
@@ -350,7 +348,7 @@
         <div class="card install-section">
             <h2 class="card-title">📥 Install Addon</h2>
             <div class="install-url">
-                <code id="addonUrl">Set backend URL above</code>
+                <code id="addonUrl">https://zesty-francene-ottakamthenking-89db8fce.koyeb.app/manifest.json</code>
                 <button class="copy-btn" onclick="copyAddonUrl()">Copy</button>
             </div>
             <div class="instructions">
@@ -369,41 +367,15 @@
     </footer>
 
     <script>
-        // Get stored backend URL or use default
-        let BACKEND_URL = localStorage.getItem('linkstream_backend') || '';
-        
+        // Hardcoded backend URL
+        const BACKEND_URL = 'https://zesty-francene-ottakamthenking-89db8fce.koyeb.app';
+
         // Initialize on load
         document.addEventListener('DOMContentLoaded', () => {
-            document.getElementById('backendUrl').value = BACKEND_URL;
-            updateAddonUrl();
-            if (BACKEND_URL) {
-                loadCurrentLink();
-            }
+            loadCurrentLink();
         });
 
-        function saveBackendUrl() {
-            const url = document.getElementById('backendUrl').value.trim().replace(/\/$/, '');
-            BACKEND_URL = url;
-            localStorage.setItem('linkstream_backend', url);
-            updateAddonUrl();
-            if (url) {
-                loadCurrentLink();
-                showStatus('Backend URL saved!', 'success');
-            }
-        }
-
-        function updateAddonUrl() {
-            const addonUrlEl = document.getElementById('addonUrl');
-            if (BACKEND_URL) {
-                addonUrlEl.textContent = `${BACKEND_URL}/manifest.json`;
-            } else {
-                addonUrlEl.textContent = 'Set backend URL above';
-            }
-        }
-
         async function loadCurrentLink() {
-            if (!BACKEND_URL) return;
-            
             try {
                 const response = await fetch(`${BACKEND_URL}/link`);
                 const data = await response.json();
@@ -424,11 +396,6 @@
         }
 
         async function saveLink() {
-            if (!BACKEND_URL) {
-                showStatus('Please set the backend URL first!', 'error');
-                return;
-            }
-
             const url = document.getElementById('streamLink').value.trim();
             if (!url) {
                 showStatus('Please enter a streaming link!', 'error');
@@ -458,7 +425,7 @@
                     showStatus('Failed to save link: ' + (data.error || 'Unknown error'), 'error');
                 }
             } catch (error) {
-                showStatus('Connection failed. Check backend URL.', 'error');
+                showStatus('Connection failed. Please try again.', 'error');
                 console.error(error);
             } finally {
                 btn.classList.remove('loading');
@@ -470,7 +437,7 @@
             const statusEl = document.getElementById('status');
             statusEl.className = `status ${type}`;
             statusEl.textContent = message;
-            
+
             setTimeout(() => {
                 statusEl.className = '';
                 statusEl.textContent = '';
@@ -478,11 +445,6 @@
         }
 
         function copyAddonUrl() {
-            if (!BACKEND_URL) {
-                showStatus('Set backend URL first!', 'error');
-                return;
-            }
-            
             const url = `${BACKEND_URL}/manifest.json`;
             navigator.clipboard.writeText(url).then(() => {
                 showStatus('Addon URL copied!', 'success');
@@ -502,9 +464,7 @@
         document.getElementById('streamLink').addEventListener('keypress', (e) => {
             if (e.key === 'Enter') saveLink();
         });
-        document.getElementById('backendUrl').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') saveBackendUrl();
-        });
     </script>
 </body>
+
 </html>
