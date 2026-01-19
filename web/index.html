@@ -348,14 +348,14 @@
         <div class="card install-section">
             <h2 class="card-title">📥 Install Addon</h2>
             <div class="install-url">
-                <code id="addonUrl">https://linkstream-addon.rohankalhaaram45.workers.dev/manifest.json</code>
+                <code id="addonUrl">stremio://linkstream-addon.rohankalhaaram45.workers.dev/manifest.json</code>
                 <button class="copy-btn" onclick="copyAddonUrl()">Copy</button>
             </div>
             <div class="instructions">
                 <ol>
-                    <li>Open Stremio → Settings → Addons</li>
-                    <li>Click "Install from URL"</li>
-                    <li>Paste the addon URL above</li>
+                    <li>Copy the addon URL above</li>
+                    <li>Paste in browser or click to open Stremio</li>
+                    <li>Click "Install" when prompted</li>
                     <li>Now "LinkStream" appears for all movies!</li>
                 </ol>
             </div>
@@ -445,7 +445,7 @@
         }
 
         function copyAddonUrl() {
-            const url = `${BACKEND_URL}/manifest.json`;
+            const url = 'stremio://linkstream-addon.rohankalhaaram45.workers.dev/manifest.json';
             navigator.clipboard.writeText(url).then(() => {
                 showStatus('Addon URL copied!', 'success');
             }).catch(() => {
